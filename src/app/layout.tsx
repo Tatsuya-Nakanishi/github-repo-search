@@ -25,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+      >
         <header className="bg-primary py-4 text-primary-foreground">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <Link href="/" className="text-xl font-bold">
@@ -33,11 +35,11 @@ export default function RootLayout({
             </Link>
           </div>
         </header>
-        <main className="container mx-auto flex-grow px-4 py-8 sm:px-6 lg:px-8">
+        <main className="mx-auto w-full max-w-[1400px] flex-grow px-4 py-8 sm:px-6 lg:px-8">
           {children}
         </main>
-        <footer className="mt-8 bg-primary py-4 text-primary-foreground">
-          <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+        <footer className="bg-primary py-4 text-primary-foreground">
+          <div className="mx-auto px-4 text-center sm:px-6 lg:px-8">
             <p>&copy; 2024 GitHub リポジトリ検索. All rights reserved.</p>
           </div>
         </footer>
