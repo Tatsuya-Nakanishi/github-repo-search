@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StarIcon, EyeIcon, GitForkIcon, AlertCircleIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,9 +39,7 @@ export default function Component() {
   const [searchKey, setSearchKey] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const { data: repositories, isLoading } = useGithubApi<RepositoryType>(searchKey, {
-    revalidateOnFocus: false,
-  });
+  const { data: repositories, isLoading } = useGithubApi<RepositoryType>(searchKey);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,9 +71,15 @@ export default function Component() {
       `${GITHUB_SEARCH_REPOSITORIES_ENDPOINT}?q=${searchQuery}&sort=${sort}&per_page=${PER_PAGE}&page=${newPage}`
     );
   };
+  useEffect(() => {
+    if (!isLoading && repositories) {
+      window.scrollTo({ top: 0 });
+    }
+  }, [isLoading, repositories]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      {isLoading && <Loading />}
       <h1 className="mb-8 text-center text-2xl font-bold sm:text-3xl">
         GitHub リポジトリ検索
       </h1>
@@ -102,7 +106,7 @@ export default function Component() {
           repositories.totalCount > 0 ? (
             <>
               <div className="mb-4 flex items-center justify-between">
-                <div>検索結果: {repositories.totalCount} 件</div>
+                <div>検索結果: {repositories.totalCount.toLocaleString()} 件</div>
                 <select
                   value={sort}
                   onChange={handleSortChange}
@@ -116,99 +120,96 @@ export default function Component() {
                 </select>
               </div>
               {repositories.items.map((repo) => (
-                <React.Fragment key={repo.id}>
-                  <Card key={repo.id}>
-                    <CardContent className="p-4">
-                      <div className="flex items-start space-x-4">
-                        <Image
-                          src={repo.owner.avatarUrl}
-                          alt={`${repo.owner.login}'s avatar`}
-                          width={40}
-                          height={40}
-                          className="flex-shrink-0 rounded-full"
-                        />
-                        <div className="min-w-0 flex-1">
-                          {' '}
-                          {/* min-w-0を追加してフレックスアイテムの最小幅を0に設定 */}
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <button className="max-w-full truncate text-left font-semibold text-blue-600 hover:underline">
-                                {repo.fullName}
-                              </button>
-                            </DialogTrigger>
-                            <DialogContent
-                              className="sm:max-w-[425px]"
-                              aria-describedby="dialog-description"
-                              aria-description="リポジトリの詳細情報"
-                            >
-                              <DialogHeader>
-                                <DialogTitle>
-                                  <a
-                                    href={repo.htmlUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="hover:underline"
-                                  >
-                                    {repo.fullName}
-                                  </a>
-                                </DialogTitle>
-                              </DialogHeader>
-                              <div className="mt-4">
-                                <div className="mb-2 flex items-center">
-                                  <Image
-                                    src={repo.owner.avatarUrl}
-                                    alt={`${repo.owner.login}'s avatar`}
-                                    width={24}
-                                    height={24}
-                                    className="mr-2 rounded-full"
-                                  />
-                                  <span>{repo.owner.login}</span>
+                <Card key={repo.id}>
+                  <CardContent className="p-4">
+                    <div className="flex items-start space-x-4">
+                      <Image
+                        src={repo.owner.avatarUrl}
+                        alt={`${repo.owner.login}'s avatar`}
+                        width={40}
+                        height={40}
+                        className="flex-shrink-0 rounded-full"
+                      />
+                      <div className="min-w-0 flex-1">
+                        {' '}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="max-w-full truncate text-left font-semibold text-blue-600 hover:underline">
+                              {repo.fullName}
+                            </button>
+                          </DialogTrigger>
+                          <DialogContent
+                            className="sm:max-w-[425px]"
+                            aria-describedby="dialog-description"
+                            aria-description="リポジトリの詳細情報"
+                          >
+                            <DialogHeader>
+                              <DialogTitle>
+                                <a
+                                  href={repo.htmlUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:underline"
+                                >
+                                  {repo.fullName}
+                                </a>
+                              </DialogTitle>
+                            </DialogHeader>
+                            <div className="mt-4">
+                              <div className="mb-2 flex items-center">
+                                <Image
+                                  src={repo.owner.avatarUrl}
+                                  alt={`${repo.owner.login}'s avatar`}
+                                  width={24}
+                                  height={24}
+                                  className="mr-2 rounded-full"
+                                />
+                                <span>{repo.owner.login}</span>
+                              </div>
+                              <p>
+                                <strong>言語:</strong> {repo.language}
+                              </p>
+                              <div className="mt-2 grid grid-cols-2 gap-2">
+                                <div className="flex items-center">
+                                  <StarIcon className="mr-1 h-4 w-4" />
+                                  <span>
+                                    {repo.stargazersCount.toLocaleString()} Stars
+                                  </span>
                                 </div>
-                                <p>
-                                  <strong>言語:</strong> {repo.language}
-                                </p>
-                                <div className="mt-2 grid grid-cols-2 gap-2">
-                                  <div className="flex items-center">
-                                    <StarIcon className="mr-1 h-4 w-4" />
-                                    <span>
-                                      {repo.stargazersCount.toLocaleString()} Stars
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <EyeIcon className="mr-1 h-4 w-4" />
-                                    <span>
-                                      {repo.watchersCount.toLocaleString()} Watchers
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <GitForkIcon className="mr-1 h-4 w-4" />
-                                    <span>{repo.forksCount.toLocaleString()} Forks</span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    <AlertCircleIcon className="mr-1 h-4 w-4" />
-                                    <span>
-                                      {repo.openIssuesCount.toLocaleString()} Open Issues
-                                    </span>
-                                  </div>
+                                <div className="flex items-center">
+                                  <EyeIcon className="mr-1 h-4 w-4" />
+                                  <span>
+                                    {repo.watchersCount.toLocaleString()} Watchers
+                                  </span>
+                                </div>
+                                <div className="flex items-center">
+                                  <GitForkIcon className="mr-1 h-4 w-4" />
+                                  <span>{repo.forksCount.toLocaleString()} Forks</span>
+                                </div>
+                                <div className="flex items-center">
+                                  <AlertCircleIcon className="mr-1 h-4 w-4" />
+                                  <span>
+                                    {repo.openIssuesCount.toLocaleString()} Open Issues
+                                  </span>
                                 </div>
                               </div>
-                            </DialogContent>
-                          </Dialog>
-                          <p className="mt-1 line-clamp-2 min-w-0 break-all text-sm text-gray-600">
-                            {repo.description}
-                          </p>
-                          <div className="mt-2 flex items-center text-sm text-gray-500">
-                            <span className="mr-4 flex items-center">
-                              <StarIcon className="mr-1 h-4 w-4" />
-                              {repo.stargazersCount.toLocaleString()}
-                            </span>
-                            {repo.language && <span>{repo.language}</span>}
-                          </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        <p className="mt-1 line-clamp-2 min-w-0 break-all text-sm text-gray-600">
+                          {repo.description}
+                        </p>
+                        <div className="mt-2 flex items-center text-sm text-gray-500">
+                          <span className="mr-4 flex items-center">
+                            <StarIcon className="mr-1 h-4 w-4" />
+                            {repo.stargazersCount.toLocaleString()}
+                          </span>
+                          {repo.language && <span>{repo.language}</span>}
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </React.Fragment>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
               <div className="mb-4 mt-8 flex justify-center">
                 <Pagination>
@@ -323,8 +324,6 @@ export default function Component() {
               </h1>
             </div>
           )
-        ) : isLoading ? (
-          <Loading />
         ) : (
           <div className="text-center">
             <h1 className="text-xl font-bold sm:text-3xl">検索してください</h1>

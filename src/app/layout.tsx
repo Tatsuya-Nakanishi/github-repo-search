@@ -40,7 +40,7 @@ export default function RootLayout({
         </main>
         <footer className="bg-primary py-4 text-primary-foreground">
           <div className="mx-auto px-4 text-center sm:px-6 lg:px-8">
-            <p>&copy; 2024 GitHub リポジトリ検索. All rights reserved.</p>
+            <p>&copy; 2025 GitHub リポジトリ検索. All rights reserved.</p>
           </div>
         </footer>
       </body>
