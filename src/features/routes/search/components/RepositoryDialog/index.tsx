@@ -9,12 +9,21 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { RepositoryItemsType } from '@/types/repository';
+import {
+  TwitterShareButton,
+  FacebookShareButton,
+  FacebookIcon,
+  XIcon,
+} from 'react-share';
 
 type PropType = {
   repo: RepositoryItemsType;
 };
 
 export default function Component({ repo }: PropType) {
+  const shareUrl = repo.htmlUrl;
+  const shareTitle = `GitHubリポジトリ: ${repo.fullName}`;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -71,6 +80,14 @@ export default function Component({ repo }: PropType) {
               <span>{repo.openIssuesCount.toLocaleString()} Open Issues</span>
             </div>
           </div>
+        </div>
+        <div className="mt-4 flex justify-center space-x-4">
+          <TwitterShareButton url={shareUrl} title={shareTitle}>
+            <XIcon size={32} round />
+          </TwitterShareButton>
+          <FacebookShareButton url={shareUrl} title={shareTitle}>
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
         </div>
       </DialogContent>
     </Dialog>
