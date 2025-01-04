@@ -28,12 +28,12 @@ export default function Component({ repo }: PropType) {
         aria-description="リポジトリの詳細情報"
       >
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="pr-8">
             <a
               href={repo.htmlUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline"
+              className="line-clamp-2 hover:underline"
             >
               {repo.fullName}
             </a>
