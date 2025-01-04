@@ -1,8 +1,11 @@
 'use client';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import useGithubApi from '@/hooks/useGithubApi';
 import { RepositoryType } from '@/types/repository';
 import { DEFAULT_PAGE, PER_PAGE, GITHUB_API_MAX_PAGE } from '@/constants/pagination';
+
+const HISTORY_KEY = 'search_history';
+const MAX_HISTORY_ITEMS = 5;
 
 export const useSearchRepositories = () => {
   const [sort, setSort] = useState<'stars' | 'updated'>('stars');
@@ -57,6 +60,7 @@ export const useSearchRepositories = () => {
           ? `/search/repositories?q=${searchQuery}&sort=${sort}&per_page=${PER_PAGE}&page=${DEFAULT_PAGE}`
           : ''
       );
+      addToHistory(searchQuery);
     },
     [sort]
   );
@@ -86,6 +90,45 @@ export const useSearchRepositories = () => {
     [query, sort]
   );
 
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+
+  useEffect(() => {
+    const history = localStorage.getItem(HISTORY_KEY);
+    if (history) {
+      setSearchHistory(JSON.parse(history));
+    }
+  }, []);
+
+  // 履歴の保存
+  const addToHistory = useCallback((searchQuery: string) => {
+    if (!searchQuery.trim()) return;
+
+    setSearchHistory((prev) => {
+      const newHistory = [
+        searchQuery,
+        ...prev.filter((item) => item !== searchQuery),
+      ].slice(0, MAX_HISTORY_ITEMS);
+
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
+      return newHistory;
+    });
+  }, []);
+
+  // 履歴から検索
+  const handleHistoryClick = useCallback((searchQuery: string) => {
+    setQuery(searchQuery);
+    setPage(DEFAULT_PAGE);
+    setKey(
+      `/search/repositories?q=${searchQuery}&sort=${sort}&per_page=${PER_PAGE}&page=${DEFAULT_PAGE}`
+    );
+  }, []);
+
+  // 履歴の全削除
+  const clearHistory = useCallback(() => {
+    localStorage.removeItem(HISTORY_KEY);
+    setSearchHistory([]);
+  }, []);
+
   return {
     sort,
     page,
@@ -98,5 +141,8 @@ export const useSearchRepositories = () => {
     handleSubmit,
     handleSortChange,
     handlePageChange,
+    searchHistory,
+    handleHistoryClick,
+    clearHistory,
   };
 };

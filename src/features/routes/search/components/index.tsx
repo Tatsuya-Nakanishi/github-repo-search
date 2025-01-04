@@ -19,6 +19,9 @@ export default function Component() {
     handleSubmit,
     handleSortChange,
     handlePageChange,
+    searchHistory,
+    handleHistoryClick,
+    clearHistory,
   } = useSearchRepositories();
 
   useEffect(() => {
@@ -39,6 +42,9 @@ export default function Component() {
         onChange={(e) => setQuery(e.target.value)}
         handleSubmit={handleSubmit}
         placeholder="リポジトリを検索..."
+        searchHistory={searchHistory}
+        handleHistoryClick={handleHistoryClick}
+        clearHistory={clearHistory}
       />
       <div className="space-y-4">
         {repositories ? (
