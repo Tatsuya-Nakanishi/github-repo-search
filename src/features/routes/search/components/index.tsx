@@ -4,29 +4,22 @@ import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import Pagination from './Pagination';
 import { useSearchRepositories } from '../hooks/useSearchRepositories';
-import { useSearchForm } from '../hooks/useSearchForm';
-import { useSearchResults } from '../hooks/useSearchResults';
-import { usePagination } from '../hooks/usePagination';
 import Loading from '@/components/custom/Loading';
 
 export default function Component() {
   const {
     sort,
-    setSort,
     page,
-    setPage,
-    setKey,
     query,
     setQuery,
     repositories,
     isLoading,
+    totalPages,
+    pageNumbers,
+    handleSubmit,
+    handleSortChange,
+    handlePageChange,
   } = useSearchRepositories();
-
-  const { handleSubmit } = useSearchForm({ setPage, setKey, sort });
-
-  const { handleSortChange } = useSearchResults({ setSort, setPage, setKey, query });
-
-  const { handlePageChange } = usePagination({ setPage, setKey, query, sort });
 
   useEffect(() => {
     if (!isLoading && repositories) {
@@ -57,8 +50,9 @@ export default function Component() {
                 handleSortChange={handleSortChange}
               />
               <Pagination
-                totalCount={repositories.totalCount}
                 page={page}
+                totalPages={totalPages}
+                pageNumbers={pageNumbers}
                 handlePageChange={handlePageChange}
               />
             </>
