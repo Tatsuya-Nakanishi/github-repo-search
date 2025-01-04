@@ -1,35 +1,51 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 import Pagination from './Pagination';
 import { useSearchRepositories } from '../hooks/useSearchRepositories';
+import { usePagination } from '../hooks/usePagination';
+import { useSearchForm } from '../hooks/useSearchForm';
+import { useSearchResults } from '../hooks/useSearchResults';
 import Loading from '@/components/custom/Loading';
 
 export default function Component() {
   const {
     sort,
+    setSort,
     page,
+    setPage,
+    setKey,
     query,
     setQuery,
     repositories,
     isLoading,
-    totalPages,
-    pageNumbers,
-    handleSubmit,
-    handleSortChange,
-    handlePageChange,
-    searchHistory,
-    handleHistoryClick,
-    clearHistory,
   } = useSearchRepositories();
 
-  useEffect(() => {
-    if (!isLoading && repositories) {
-      // 検索結果表示後は画面上部にスクロール
-      window.scrollTo({ top: 0 });
+  const { handlePageChange, totalPages, pageNumbers } = usePagination({
+    setPage,
+    setKey,
+    page,
+    query,
+    sort,
+    totalCount: repositories?.totalCount ?? 0,
+  });
+
+  const { handleSubmit, handleHistoryClick, clearHistory, searchHistory } = useSearchForm(
+    {
+      setPage,
+      setKey,
+      setQuery,
+      sort,
     }
-  }, [isLoading, repositories]);
+  );
+
+  const { handleSortChange } = useSearchResults({
+    setSort,
+    setPage,
+    setKey,
+    query,
+  });
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">

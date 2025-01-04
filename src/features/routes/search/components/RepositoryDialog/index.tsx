@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { RepositoryItemsType } from '@/types/repository';
 import {
@@ -31,11 +32,7 @@ export default function Component({ repo }: PropType) {
           {repo.fullName}
         </button>
       </DialogTrigger>
-      <DialogContent
-        className="sm:max-w-[425px]"
-        aria-describedby="dialog-description"
-        aria-description="リポジトリの詳細情報"
-      >
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="pr-8">
             <a
@@ -47,6 +44,7 @@ export default function Component({ repo }: PropType) {
               {repo.fullName}
             </a>
           </DialogTitle>
+          <DialogDescription className="hidden">リポジトリの詳細情報</DialogDescription>
         </DialogHeader>
         <div className="mt-4">
           <div className="mb-2 flex items-center">
