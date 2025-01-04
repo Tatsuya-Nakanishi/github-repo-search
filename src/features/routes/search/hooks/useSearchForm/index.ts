@@ -64,6 +64,7 @@ export const useSearchForm = ({ setPage, setKey, setQuery, sort }: PropType) => 
   }, []);
 
   useEffect(() => {
+    // ローカルストレージから履歴を取得
     const history = localStorage.getItem(HISTORY_KEY);
     if (history) {
       setSearchHistory(JSON.parse(history));
