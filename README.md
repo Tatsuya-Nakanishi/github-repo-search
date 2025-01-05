@@ -81,8 +81,8 @@ Featuresをベースにした構成にしています。
 src
 ├── app          ・・・ルーティング
 ├── features     ・・・ロジック + コンポーネントをまとめたもの
-│   ├── common  ・・・共通部分
-│   └── routes  ・・・ページ特有
+│   ├── common   ・・・共通部分
+│   └── routes   ・・・ページ特有
 ├── components   ・・・ロジックを持たないUIコンポーネント
 │   ├── custom  ・・・自作のUIコンポーネント
 │   └── ui      ・・・shadcn/uiのコンポーネント
@@ -91,7 +91,40 @@ src
 ├── lib          ・・・共通ロジックの内、React Hooksが「ない」もの
 ├── types        ・・・共通で利用する型定義
 </pre>
-
+検索ページ(features/routes/search)のディレクトリ構成
+<br>
+UIとロジックを分離し、役割ごとにディレクトリを分けています。
+<pre>
+features/routes/search
+├── components
+│   ├── Pagination           ・・・ページネーションUIコンポーネント
+│   │   ├── index.test.tsx
+│   │   └── index.tsx
+│   ├── RepositoryDialog     ・・・リポジトリ詳細ダイアログUIコンポーネント
+│   │   ├── index.test.tsx
+│   │   └── index.tsx
+│   ├── SearchForm           ・・・検索フォームUIコンポーネント
+│   │   ├── index.test.tsx
+│   │   └── index.tsx
+│   ├── SearchResults        ・・・検索結果一覧UIコンポーネント
+│   │   ├── index.test.tsx
+│   │   └── index.tsx
+│   ├── index.test.tsx
+│   └── index.tsx            ・・・各コンポーネントのラッパー
+└── hooks
+    ├── usePagination          ・・・ページネーションロジック
+    │   ├── index.test.ts
+    │   └── index.ts
+    ├── useSearchForm          ・・・検索フォームロジック
+    │   ├── index.test.ts
+    │   └── index.ts
+    ├── useSearchRepositories  ・・・リポジトリ検索ロジック
+    │   ├── index.test.ts
+    │   └── index.ts
+    └── useSearchResults       ・・・検索結果一覧ロジック
+        ├── index.test.ts
+        └── index.ts
+</pre>
 <br>
 
 [参考](https://qiita.com/miumi/items/359b8a77bbb6f9666950)
@@ -110,7 +143,7 @@ huskyを利用して、
 <br>
 コミット時にESLint、Prettier
 <br>
-プッシュ時に型チェック、テストを実行するように設定しています。
+プッシュ時に型チェック、Vitestを実行するように設定しています。
 <br>
 【理由】
 - コーディング規約を統一し、事前チェックを行うことでレビューコストを削減したいから。
