@@ -81,10 +81,10 @@ export default function Component({ repo }: PropType) {
         </div>
         <div className="mt-4 flex justify-center space-x-4">
           <TwitterShareButton url={shareUrl} title={shareTitle}>
-            <XIcon size={32} round />
+            <XIcon size={32} round aria-label="X" />
           </TwitterShareButton>
           <FacebookShareButton url={shareUrl} title={shareTitle}>
-            <FacebookIcon size={32} round />
+            <FacebookIcon size={32} round aria-label="Facebook" />
           </FacebookShareButton>
         </div>
       </DialogContent>

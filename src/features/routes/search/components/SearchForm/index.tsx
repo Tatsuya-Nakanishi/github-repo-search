@@ -56,6 +56,7 @@ export default function Component({
               onClick={clearHistory}
               className="ml-1 h-7 w-7"
               title="履歴を削除"
+              aria-label="履歴を削除"
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>

@@ -1,2 +1,4 @@
 # 型チェック
 npm run check-types
+# テスト
+npm run test
