@@ -11,7 +11,8 @@
     "prepare": "husky",
     "check-types": "tsc --noEmit",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}' --plugin=prettier-plugin-tailwindcss",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
