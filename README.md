@@ -24,6 +24,7 @@ cp .env.example .env.local
 
 # 環境変数を設定
 以下を参考にNEXT_PUBLIC_GITHUB_TOKENを設定してください。
+※トークン発行の際はリポジトリアクセス権限等全てのアクセス権限を付与しないでください。
 
 https://docs.github.com/ja/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 
@@ -182,6 +183,7 @@ App Routerでは、loading.tsxでより柔軟にローディングUIを表示で
 [参考](https://swr.vercel.app/ja/docs/suspense)
 
 ## 今後の課題
+- 現状だと、githubのアクセストークンがパブリックになってしまうため、githubAPIへのアクセスをServer Actionsで行うようにしたい。
 - ESLintの実行自体はできているが、selint.config.mjsの設定が反映されていないため修正が必要
 - E2Eテストの導入
   - 動作全体のテストを行いたいから。
