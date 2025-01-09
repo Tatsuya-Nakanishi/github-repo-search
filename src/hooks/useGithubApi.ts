@@ -3,14 +3,8 @@
 import humps from 'humps';
 import useSWR, { SWRResponse } from 'swr';
 
-const GITHUB_API_BASE_URL = 'https://api.github.com';
-
 const fetcher = (url: string) =>
-  fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-    },
-  })
+  fetch(url)
     .then((res) => {
       if (!res.ok) {
         throw new Error('リクエストに失敗しました');
@@ -19,10 +13,10 @@ const fetcher = (url: string) =>
     })
     .then((data: any) => humps.camelizeKeys(data));
 
-export default function useGithubApi<T>(key: string): SWRResponse<T, Error> {
-  const url = `${GITHUB_API_BASE_URL}${key}`;
+export default function useGithubApi<T>(path: string): SWRResponse<T, Error> {
+  const url = path ? `/api/github/${path}` : null;
 
-  return useSWR<T>(key ? url : null, fetcher, {
+  return useSWR<T>(url, fetcher, {
     revalidateOnFocus: false,
     keepPreviousData: true,
   });

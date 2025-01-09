@@ -96,6 +96,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "warn",
       "@typescript-eslint/no-unsafe-call": "warn",
       "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/await-thenable": "warn",
     },
   },
   // prettierとの競合を防ぐためにeslint-config-prettierを読み込む
