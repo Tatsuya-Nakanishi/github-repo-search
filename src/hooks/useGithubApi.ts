@@ -1,7 +1,7 @@
 'use client';
 
-import useSWR, { SWRResponse } from 'swr';
 import humps from 'humps';
+import useSWR, { SWRResponse } from 'swr';
 
 const GITHUB_API_BASE_URL = 'https://api.github.com';
 
@@ -17,7 +17,7 @@ const fetcher = (url: string) =>
       }
       return res.json();
     })
-    .then((data) => humps.camelizeKeys(data));
+    .then((data: any) => humps.camelizeKeys(data));
 
 export default function useGithubApi<T>(key: string): SWRResponse<T, Error> {
   const url = `${GITHUB_API_BASE_URL}${key}`;
