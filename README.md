@@ -186,7 +186,6 @@ App Routerでは、loading.tsxでより柔軟にローディングUIを表示で
 
 ## 今後の課題
 - 現状だと、githubのアクセストークンがパブリックになってしまうため、githubAPIへのアクセスをServer Actionsで行うようにしたい。
-- ESLintの実行自体はできているが、selint.config.mjsの設定が反映されていないため修正が必要
 - E2Eテストの導入
   - 動作全体のテストを行いたいから。
 - Storybookの導入
