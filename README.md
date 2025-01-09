@@ -97,6 +97,8 @@ src
 UIとロジックを分離し、役割ごとにディレクトリを分けています。
 <pre>
 features/routes/search
+├── types                    
+│   └── repository.ts        ・・・リポジトリ型定義
 ├── components
 │   ├── Pagination           ・・・ページネーションUIコンポーネント
 │   │   ├── index.test.tsx
