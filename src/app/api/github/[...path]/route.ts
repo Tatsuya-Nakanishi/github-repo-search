@@ -4,11 +4,11 @@ const GITHUB_API_BASE_URL = 'https://api.github.com';
 
 export async function GET(
   req: NextRequest,
-  context: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ): Promise<NextResponse> {
   try {
-    const params = await context.params;
-    const urlPath = params.path.join('/');
+    const resolvedParams = await params;
+    const urlPath = resolvedParams.path.join('/');
     if (urlPath === '') {
       return NextResponse.json({ error: 'Path parameter is required' }, { status: 400 });
     }
