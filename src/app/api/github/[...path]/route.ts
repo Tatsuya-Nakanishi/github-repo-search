@@ -8,8 +8,8 @@ export async function GET(
 ): Promise<NextResponse> {
   try {
     const resolvedParams = await params;
-    const urlPath = resolvedParams.path.join('/');
-    if (urlPath === '') {
+    const path = resolvedParams.path.join('/');
+    if (path === '') {
       return NextResponse.json({ error: 'Path parameter is required' }, { status: 400 });
     }
     // リクエストURLからクエリパラメータを取得
@@ -25,9 +25,7 @@ export async function GET(
     }
 
     // GitHub API のエンドポイントを構築
-    const endpoint = `${GITHUB_API_BASE_URL}/${urlPath}?${queryString}`;
-
-    console.log('Fetching GitHub API:', endpoint);
+    const endpoint = `${GITHUB_API_BASE_URL}/${path}?${queryString}`;
 
     // GitHub API を呼び出す
     const ghRes = await fetch(endpoint, {
