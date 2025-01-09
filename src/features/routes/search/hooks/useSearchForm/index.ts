@@ -34,7 +34,7 @@ export const useSearchForm = ({ setPage, setKey, setQuery, sort }: PropType) => 
   );
 
   // 履歴の保存
-  const addToHistory = useCallback((searchQuery: string) => {
+  const addToHistory = (searchQuery: string) => {
     if (!searchQuery.trim()) return;
 
     setSearchHistory((prev) => {
@@ -46,28 +46,28 @@ export const useSearchForm = ({ setPage, setKey, setQuery, sort }: PropType) => 
       localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
       return newHistory;
     });
-  }, []);
+  };
 
   // 履歴から検索
-  const handleHistoryClick = useCallback((searchQuery: string) => {
+  const handleHistoryClick = (searchQuery: string) => {
     setQuery(searchQuery);
     setPage(DEFAULT_PAGE);
     setKey(
       `/search/repositories?q=${searchQuery}&sort=${sort}&per_page=${PER_PAGE}&page=${DEFAULT_PAGE}`
     );
-  }, []);
+  };
 
   // 履歴の全削除
-  const clearHistory = useCallback(() => {
+  const clearHistory = () => {
     localStorage.removeItem(HISTORY_KEY);
     setSearchHistory([]);
-  }, []);
+  };
 
   useEffect(() => {
     // ローカルストレージから履歴を取得
     const history = localStorage.getItem(HISTORY_KEY);
     if (history) {
-      setSearchHistory(JSON.parse(history));
+      setSearchHistory(JSON.parse(history) as string[]);
     }
   }, []);
 
