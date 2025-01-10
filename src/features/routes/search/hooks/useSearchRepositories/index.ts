@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import useGithubApi from '@/hooks/useGithubApi';
-import { RepositoryType } from '@/types/repository';
+import { RepositoryType } from '../../types/repository';
 import { DEFAULT_PAGE } from '@/constants/pagination';
 
 export const useSearchRepositories = () => {

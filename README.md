@@ -23,7 +23,7 @@ npm run prepare
 cp .env.example .env.local
 
 # 環境変数を設定
-以下を参考にNEXT_PUBLIC_GITHUB_TOKENを設定してください。
+以下を参考にGITHUB_API_TOKENを設定してください。
 ※トークン発行の際はリポジトリアクセス権限等全てのアクセス権限を付与しないでください。
 
 https://docs.github.com/ja/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
@@ -97,6 +97,8 @@ src
 UIとロジックを分離し、役割ごとにディレクトリを分けています。
 <pre>
 features/routes/search
+├── types                    
+│   └── repository.ts        ・・・リポジトリ型定義
 ├── components
 │   ├── Pagination           ・・・ページネーションUIコンポーネント
 │   │   ├── index.test.tsx
@@ -183,8 +185,6 @@ App Routerでは、loading.tsxでより柔軟にローディングUIを表示で
 [参考](https://swr.vercel.app/ja/docs/suspense)
 
 ## 今後の課題
-- 現状だと、githubのアクセストークンがパブリックになってしまうため、githubAPIへのアクセスをServer Actionsで行うようにしたい。
-- ESLintの実行自体はできているが、selint.config.mjsの設定が反映されていないため修正が必要
 - E2Eテストの導入
   - 動作全体のテストを行いたいから。
 - Storybookの導入

@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { RepositoryItemsType } from '@/types/repository';
+import { RepositoryItemsType } from '../../types/repository';
 import {
   TwitterShareButton,
   FacebookShareButton,

@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { StarIcon } from 'lucide-react';
 import RepositoryDialog from '../RepositoryDialog';
-import { RepositoryType } from '@/types/repository';
+import { RepositoryType } from '../../types/repository';
 
 type PropType = {
   repositories: RepositoryType;
